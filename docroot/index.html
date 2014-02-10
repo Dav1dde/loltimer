@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" user-scalable="no">
+
+        <title>LoL Buff/Objective Timer</title>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/require.js"></script>
+        <script src="js/app.js"></script>
+        <script type="text/javascript">require('/main')</script>
+        <link rel="stylesheet" href="css/style.css"></link>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row game-controls">
+                <div class="col-xs-5 game-control-side game-control-left">
+                    <button type="button" class="btn btn-default btn-xs btn-start">Start</button>
+                </div>
+                <div class="col-xs-2 game-time">0:00</div>
+                <div class="col-xs-5 game-control-side game-control-right">
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 1000"><b>+</b>1s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 10000"><b>+</b></span>10s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 60000"><b>+</b></span>1m</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 timer-box" id="nashor">
+                    <div class="inner-box">
+                        <div class="row upper-row">
+                            <div class="col-md-12">
+                                <span class="name nashor">Baron Nashor</span>
+                                <span class="time" id="nashor-time"></span>
+                            </div>
+                        </div>
+
+                        <div class="row spacer"></div>
+
+                        <div class="row lower-row">
+                            <div class="col-md-12 controls">
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 1000"><b>+</b>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 10000"><b>+</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 60000"><b>+</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 timer-box" id="dragon">
+                    <div class="inner-box">
+                        <div class="row upper-row">
+                            <div class="col-md-12">
+                                <span class="name dragon">Dragon</span>
+                                <span class="time" id="dragon-time"></span>
+                            </div>
+                        </div>
+
+                        <div class="row spacer"></div>
+
+                        <div class="row lower-row">
+                            <div class="col-md-12 controls">
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="1000"><b>+</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="10000"><b>+</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="60000"><b>+</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6 timer-box" id="oblue">
+                    <div class="inner-box">
+                        <div class="row upper-row">
+                            <div class="col-md-12">
+                                <span class="name blue-buff">Blue Buff</span>
+                                <span class="time" id="oblue-time"></span>
+                            </div>
+                        </div>
+
+                        <div class="row spacer"></div>
+
+                        <div class="row lower-row">
+                            <div class="col-md-12 controls">
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="1000"><b>+</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="10000"><b>+</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="60000"><b>+</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 timer-box" id="ored">
+                    <div class="inner-box">
+                        <div class="row upper-row">
+                            <div class="col-md-12">
+                                <span class="name red-buff">Red Buff</span>
+                                <span class="time" id="ored-time"></span>
+                            </div>
+                        </div>
+
+                        <div class="row spacer"></div>
+
+                        <div class="row lower-row">
+                            <div class="col-md-12 controls">
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="1000"><b>+</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="10000"><b>+</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="60000"><b>+</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6 timer-box" id="tblue">
+                    <div class="inner-box">
+                        <div class="row upper-row">
+                            <div class="col-md-12">
+                                <span class="name blue-buff">Enemy Blue Buff</span>
+                                <span class="time" id="tblue-time"></span>
+                            </div>
+                        </div>
+
+                        <div class="row spacer"></div>
+
+                        <div class="row lower-row">
+                            <div class="col-md-12 controls">
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="1000"><b>+</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="10000"><b>+</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="60000"><b>+</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 timer-box" id="tred">
+                    <div class="inner-box">
+                        <div class="row upper-row">
+                            <div class="col-md-12">
+                                <span class="name red-buff">Enemy Red Buff</span>
+                                <span class="time" id="tred-time"></span>
+                            </div>
+                        </div>
+
+                        <div class="row spacer"></div>
+
+                        <div class="row lower-row">
+                            <div class="col-md-12 controls">
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="1000"><b>+</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="10000"><b>+</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="60000"><b>+</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                                <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

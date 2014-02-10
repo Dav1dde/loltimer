@@ -1,0 +1,85 @@
+html {
+    height: 100%
+}
+
+body {
+    background-color: #fff;
+    font-family: sans-serif;
+    color: black;
+}
+
+.game-controls {
+    margin-top: 6px;
+}
+
+.game-control-side {
+}
+
+.game-control-side button {
+    margin-top: 5px;
+}
+
+.game-control-left {
+    text-align: left;
+}
+
+.game-control-right {
+    text-align: right;
+}
+
+.game-time {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.upper-row {
+}
+
+.name {
+    font-weight: bold;
+}
+
+.nashor {
+}
+
+.dragon {
+}
+
+.blue-buff {
+    color: blue;
+}
+
+.red-buff {
+    color: red;
+}
+
+
+.time {
+    float: right;
+}
+
+.spacer {
+    height: 1em;
+}
+
+.lower-row {
+}
+
+.controls {
+    text-align: right;
+}
+
+.timer-box {
+}
+
+.inner-box {
+    /*background-color: #8aea01;*/
+    padding: 5px;
+
+    border: 1px solid gray;
+    margin: 5px 0 5px 0;
+    -webkit-border-radius: 10px;
+       -moz-border-radius: 10px;
+            border-radius: 10px;
+
+}
