@@ -6,6 +6,7 @@ define('/main', function(exports, require) {
   Main = (function() {
     function Main() {
       var bc, oc, rc;
+      this.game = new Game($('.game-controls'));
       oc = [
         {
           bg: '#8aea01',
@@ -42,7 +43,6 @@ define('/main', function(exports, require) {
           fg: 'white'
         }
       ];
-      this.game = new Game($('.game-controls'));
       this.objectives = {
         baron: new Objective(this.game, 900000, 420000, -1, oc, $('#nashor'), {
           dragon: new Objective(this.game, 150000, 360000, -1, oc, $('#dragon'), {
