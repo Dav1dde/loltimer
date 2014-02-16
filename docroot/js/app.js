@@ -1,6 +1,5 @@
 define('/main', function(exports, require) {
-  var Game, Main, Objective, Timer, Updater;
-  Updater = require('updater');
+  var Game, Main, Objective, Timer;
   Timer = require('timer');
   Game = require('game');
   Objective = require('objective');
@@ -48,9 +47,9 @@ define('/main', function(exports, require) {
         baron: new Objective(this.game, 900000, 420000, -1, oc, $('#nashor'), {
           dragon: new Objective(this.game, 150000, 360000, -1, oc, $('#dragon'), {
             oblue: new Objective(this.game, 115000, 300000, -1, bc, $('#oblue'), {
-              tblue: new Objective(this.game, 115000, 300000, 10000, bc, $('#tblue'), {
+              tblue: new Objective(this.game, 115000, 300000, 30000, bc, $('#tblue'), {
                 ored: new Objective(this.game, 115000, 300000, -1, rc, $('#ored'), {
-                  tred: new Objective(this.game, 115000, 300000, 10000, rc, $('#tred'))
+                  tred: new Objective(this.game, 115000, 300000, 30000, rc, $('#tred'))
                 })
               })
             })
@@ -360,12 +359,12 @@ define('/timer', function(exports, require) {
 
     Timer.prototype.start = function() {
       this.started = true;
-      return this.stime = performance.now();
+      return this.stime = Date.now();
     };
 
     Timer.prototype.pause = function() {
       this.paused = !this.paused;
-      return this.stime = performance.now() - this.stime;
+      return this.stime = Date.now() - this.stime;
     };
 
     Timer.prototype.resume = function() {
@@ -390,53 +389,13 @@ define('/timer', function(exports, require) {
         if (this.paused) {
           return this.stime;
         } else {
-          return performance.now() - this.stime;
+          return Date.now() - this.stime;
         }
       }
       return 0;
     };
 
     return Timer;
-
-  })();
-  return exports;
-});
-
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-define('/updater', function(exports, require) {
-  var Updater;
-  exports = Updater = (function() {
-    function Updater(timer) {
-      this.timer = timer;
-      this.callback = __bind(this.callback, this);
-      console.log(this.timer);
-    }
-
-    Updater.prototype.start = function() {
-      return this.id = setInterval(this.callback, 500);
-    };
-
-    Updater.prototype.stop = function() {
-      return clearInterval(this.id);
-    };
-
-    Updater.prototype.callback = function() {
-      var allseconds, minutes, seconds, t, te, _i, _len, _ref, _results;
-      _ref = this.timer;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        t = _ref[_i];
-        te = t.element.find('.time');
-        allseconds = (t.remaining - (performance.now() - t.start)) / 1000;
-        minutes = Math.floor(allseconds / 60);
-        seconds = Math.floor(allseconds - minutes * 60);
-        _results.push(te.text("" + minutes + ":" + seconds));
-      }
-      return _results;
-    };
-
-    return Updater;
 
   })();
   return exports;

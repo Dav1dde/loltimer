@@ -8,11 +8,11 @@ exports = class Timer
 
     start: ->
         @started = true
-        @stime = performance.now()
+        @stime = Date.now()
 
     pause: ->
         @paused = not @paused
-        @stime = performance.now() - @stime
+        @stime = Date.now() - @stime
 
     resume: -> pause()
 
@@ -29,5 +29,5 @@ exports = class Timer
 
     time: ->
         if @started
-            return if @paused then @stime else performance.now() - @stime
+            return if @paused then @stime else Date.now() - @stime
         return 0

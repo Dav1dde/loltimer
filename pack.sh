@@ -1,17 +1,18 @@
 #!/bin/sh
 
+NAME=loltimer
 python2 ./build.py
 
-mkdir -p /tmp/pack_mosaic/
-cp -r docroot/ /tmp/pack_mosaic/mosaic/
-cp -r dep/ /tmp/pack_mosaic/mosaic/
-sed -i -e "s/\.\/dep/\/dep/" /tmp/pack_mosaic/mosaic/index.html
+mkdir -p /tmp/pack_$NAME/
+cp -r docroot/ /tmp/pack_$NAME/$NAME/
+#cp -r dep/ /tmp/pack_$NAME/$NAME/
+sed -i -e "s/\.\/dep/\/dep/" /tmp/pack_$NAME/$NAME/index.html
 
-pushd /tmp/pack_mosaic/ >/dev/null
-zip -r mosaic.zip mosaic/ >/dev/null
-mv mosaic.zip mosaic/
+pushd /tmp/pack_$NAME/ >/dev/null
+zip -r $NAME.zip $NAME/ >/dev/null
+mv $NAME.zip $NAME/
 popd >/dev/null
 
-tar -pczf mosaic.tar.gz -C /tmp/pack_mosaic/ mosaic/
+tar -pczf $NAME.tar.gz -C /tmp/pack_$NAME/ $NAME/
 
-rm -rf /tmp/pack_mosaic/
+rm -rf /tmp/pack_$NAME/
