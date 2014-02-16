@@ -8,6 +8,10 @@ body {
     color: black;
 }
 
+.outer-container {
+    max-width: 1550px;
+}
+
 .game-controls {
     margin-top: 6px;
 }
