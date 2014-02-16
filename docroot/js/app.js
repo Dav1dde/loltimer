@@ -105,9 +105,10 @@ define('/util', function(exports, require) {
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 define('/objective', function(exports, require) {
-  var Objective;
+  var OBJECTIVE_HTML, Objective;
+  OBJECTIVE_HTML = '        <div class="inner-box">\n            <div class="row upper-row">\n                <div class="col-md-12">\n                    <span class="name OBJECTIVE_ID">OBJECTIVE_TITLE</span>\n                    <span class="time OBJECTIVE_ID-time"></span>\n                </div>\n            </div>\n\n            <div class="row spacer"></div>\n\n            <div class="row lower-row">\n                <div class="col-md-12 controls">\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 1000"><b>+</b>1s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 10000"><b>+</b></span>10s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 60000"><b>+</b></span>1m</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>\n                    <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>\n                </div>\n            </div>\n        </div>';
   exports = Objective = (function() {
-    function Objective(game, tinitial, trefresh, tcooldown, colors, element) {
+    function Objective(game, tinitial, trefresh, tcooldown, colors, element, title) {
       var _this = this;
       this.game = game;
       this.tinitial = tinitial;
@@ -115,6 +116,7 @@ define('/objective', function(exports, require) {
       this.tcooldown = tcooldown;
       this.colors = colors;
       this.element = element;
+      this.title = title;
       this.callback = __bind(this.callback, this);
       this.initial = true;
       this.scheduled = this.game.schedule(this.tinitial, this, this.callback);
@@ -124,8 +126,16 @@ define('/objective', function(exports, require) {
       this.element.find('.btn-refresh').on('click', function(evt) {
         return _this.refresh();
       });
+      this.setup();
       this.setColor(this.colors[0]);
     }
+
+    Objective.prototype.setup = function() {
+      var html;
+      html = OBJECTIVE_HTML;
+      html = html.replace('OBJECTIVE_ID', this.element.data('id')).replace('OBJECTIVE_TITLE', this.element.data('name'));
+      return this.element.html(html);
+    };
 
     Objective.prototype._schedule = function(t) {
       this.initial = false;

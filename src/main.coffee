@@ -14,7 +14,7 @@ class Main
 
         @objectives = {
             #                            Spawn   Respawn Cooldown
-            baron:  new Objective @game, 900000, 420000, -1,    oc, $('#nashor'),
+            baron:  new Objective @game, 900000, 420000, -1,    oc, $('#nashor'), 
             dragon: new Objective @game, 150000, 360000, -1,    oc, $('#dragon'),
             oblue:  new Objective @game, 115000, 300000, -1,    bc,  $('#oblue'),
             tblue:  new Objective @game, 115000, 300000, 30000, bc,  $('#tblue'),

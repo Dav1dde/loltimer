@@ -1,7 +1,33 @@
 
 
+OBJECTIVE_HTML = '''
+        <div class="inner-box">
+            <div class="row upper-row">
+                <div class="col-md-12">
+                    <span class="name OBJECTIVE_ID">OBJECTIVE_TITLE</span>
+                    <span class="time OBJECTIVE_ID-time"></span>
+                </div>
+            </div>
+
+            <div class="row spacer"></div>
+
+            <div class="row lower-row">
+                <div class="col-md-12 controls">
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 1000"><b>+</b>1s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 10000"><b>+</b></span>10s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 60000"><b>+</b></span>1m</button>
+                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>
+                    <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>
+                </div>
+            </div>
+        </div>
+'''
+
+
 exports = class Objective
-    constructor: (@game, @tinitial, @trefresh, @tcooldown, @colors, @element) ->
+    constructor: (@game, @tinitial, @trefresh, @tcooldown, @colors, @element, @title) ->
         @initial = true
         @scheduled = @game.schedule @tinitial, @, @callback
 
@@ -13,7 +39,15 @@ exports = class Objective
             @refresh()
         )
 
+        @setup()
         @setColor @colors[0]
+
+    setup: ->
+        html = OBJECTIVE_HTML
+        html = html.replace('OBJECTIVE_ID', @element.data 'id')
+                   .replace('OBJECTIVE_TITLE', @element.data 'name')
+
+        @element.html html
 
     _schedule: (t) ->
         @initial = false
