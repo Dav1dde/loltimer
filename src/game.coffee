@@ -10,14 +10,28 @@ exports = class Game
         @timer = new Timer()
         @_poll = 333
 
+        @element.find('.btn-mute').on('click', (evt) ->
+            btn = $(@)
+            btn.button 'toggle'
+
+            states = {
+                false: '<span class="glyphicon glyphicon-volume-off"></span>'
+                true:'<span class="glyphicon glyphicon-volume-up"></span>'
+            }
+
+            snd = $('#alert-sound')[0]
+            btn.html states[snd.muted]
+            snd.muted = not snd.muted
+
+            return
+        )
+
         @element.find('.btn-start').on('click', (evt) =>
             text = if @toggle() then 'Pause' else 'Resume'
             $(evt.currentTarget).text(text)
         )
 
-        @element.find('.btn-dt').on('click', (evt) =>
-            @delay parseInt $(evt.currentTarget).data('dt')
-        )
+        @element.find('.btn-dt').on 'click', (evt) => @delay parseInt $(evt.currentTarget).data('dt')
 
     start: ->
         @id = setInterval @callback, @_poll
@@ -68,7 +82,7 @@ exports = class Game
 
             for objective in objectives
                 obj = objective.object
-                obj.updateColor(htime - time)
+                obj.update(htime - time)
                 obj.element.find('.time').html("#{minutes}:#{seconds} | #{lminutes}:#{lseconds}")
 
         @events.remove ts

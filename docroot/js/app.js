@@ -44,17 +44,12 @@ define('/main', function(exports, require) {
         }
       ];
       this.objectives = {
-        baron: new Objective(this.game, 900000, 420000, -1, oc, $('#nashor'), {
-          dragon: new Objective(this.game, 150000, 360000, -1, oc, $('#dragon'), {
-            oblue: new Objective(this.game, 115000, 300000, -1, bc, $('#oblue'), {
-              tblue: new Objective(this.game, 115000, 300000, 30000, bc, $('#tblue'), {
-                ored: new Objective(this.game, 115000, 300000, -1, rc, $('#ored'), {
-                  tred: new Objective(this.game, 115000, 300000, 30000, rc, $('#tred'))
-                })
-              })
-            })
-          })
-        })
+        baron: new Objective(this.game, 900000, 420000, -1, false, false, oc, $('#nashor')),
+        dragon: new Objective(this.game, 150000, 360000, -1, false, false, oc, $('#dragon')),
+        oblue: new Objective(this.game, 115000, 300000, -1, false, true, bc, $('#oblue')),
+        tblue: new Objective(this.game, 115000, 300000, 30000, true, true, bc, $('#tblue')),
+        ored: new Objective(this.game, 115000, 300000, -1, false, true, rc, $('#ored')),
+        tred: new Objective(this.game, 115000, 300000, 30000, true, true, rc, $('#tred'))
       };
       this.game.callback();
     }
@@ -63,6 +58,7 @@ define('/main', function(exports, require) {
 
   })();
   $(function() {
+    $('.btn').button();
     return new Main();
   });
   return exports;
@@ -105,44 +101,55 @@ define('/util', function(exports, require) {
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 define('/objective', function(exports, require) {
-  var OBJECTIVE_HTML, Objective;
-  OBJECTIVE_HTML = '        <div class="inner-box">\n            <div class="row upper-row">\n                <div class="col-md-12">\n                    <span class="name OBJECTIVE_ID">OBJECTIVE_TITLE</span>\n                    <span class="time OBJECTIVE_ID-time"></span>\n                </div>\n            </div>\n\n            <div class="row spacer"></div>\n\n            <div class="row lower-row">\n                <div class="col-md-12 controls">\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 1000"><b>+</b>1s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 10000"><b>+</b></span>10s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 60000"><b>+</b></span>1m</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>\n                    <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>\n                </div>\n            </div>\n        </div>';
+  var GREEN, OBJECTIVE_HTML, Objective, RED, YELLOW;
+  OBJECTIVE_HTML = '        <div class="inner-box">\n            <div class="row upper-row">\n                <div class="col-md-12">\n                    <span class="name OBJECTIVE_ID">OBJECTIVE_TITLE</span>\n                    <span class="time OBJECTIVE_ID-time"></span>\n                </div>\n            </div>\n\n            <div class="row spacer"></div>\n\n            <div class="row lower-row">\n                <div class="col-md-12 controls">\n                    <button type="button" class="btn btn-default btn-xs btn-mute"><span class="glyphicon glyphicon-volume-up"></span></button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 1000"><b>+</b>1s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-1000"><b>-</b></span>1s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 10000"><b>+</b></span>10s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-10000"><b>-</b></span>10s</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt=" 60000"><b>+</b></span>1m</button>\n                    <button type="button" class="btn btn-default btn-xs btn-dt" data-dt="-60000"><b>-</b></span>1m</button>\n                    <button type="button" class="btn btn-default btn-xs btn-info btn-refresh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Refresh</button>\n                </div>\n            </div>\n        </div>';
+  GREEN = 0;
+  YELLOW = 1;
+  RED = 2;
   exports = Objective = (function() {
-    function Objective(game, tinitial, trefresh, tcooldown, colors, element, title) {
-      var _this = this;
+    function Objective(game, tinitial, trefresh, tcooldown, muted, first_update, colors, element) {
       this.game = game;
       this.tinitial = tinitial;
       this.trefresh = trefresh;
       this.tcooldown = tcooldown;
+      this.first_update = first_update;
       this.colors = colors;
       this.element = element;
-      this.title = title;
       this.callback = __bind(this.callback, this);
       this.initial = true;
-      this.scheduled = this.game.schedule(this.tinitial, this, this.callback);
+      this._schedule(this.tinitial);
+      this.state = GREEN;
+      this.setup();
+      this.setColor(this.colors[0]);
+      this.sound = true;
+      if (muted) {
+        this.toggle_mute();
+      }
+    }
+
+    Objective.prototype.setup = function() {
+      var html,
+        _this = this;
+      html = OBJECTIVE_HTML;
+      html = html.replace('OBJECTIVE_ID', this.element.data('id')).replace('OBJECTIVE_TITLE', this.element.data('name'));
+      this.element.html(html);
       this.element.find('.btn-dt').on('click', function(evt) {
         return _this.delay(parseInt($(evt.currentTarget).data('dt')));
       });
       this.element.find('.btn-refresh').on('click', function(evt) {
         return _this.refresh();
       });
-      this.setup();
-      this.setColor(this.colors[0]);
-    }
-
-    Objective.prototype.setup = function() {
-      var html;
-      html = OBJECTIVE_HTML;
-      html = html.replace('OBJECTIVE_ID', this.element.data('id')).replace('OBJECTIVE_TITLE', this.element.data('name'));
-      return this.element.html(html);
+      return this.element.find('.btn-mute').on('click', function(evt) {
+        return _this.toggle_mute();
+      });
     };
 
     Objective.prototype._schedule = function(t) {
-      this.initial = false;
       return this.scheduled = this.game.schedule(t, this, this.callback);
     };
 
     Objective.prototype.callback = function() {
+      this.initial = false;
       if (this.tcooldown >= 0) {
         return this._schedule(this.tcooldown + this.trefresh);
       }
@@ -159,20 +166,38 @@ define('/objective', function(exports, require) {
       return this._schedule(this.trefresh);
     };
 
-    Objective.prototype.updateColor = function(dt) {
-      var color;
-      color = (function() {
+    Objective.prototype.toggle_mute = function() {
+      var btn, states;
+      btn = this.element.find('.btn-mute');
+      btn.button('toggle');
+      states = {
+        "true": '<span class="glyphicon glyphicon-volume-off"></span>',
+        "false": '<span class="glyphicon glyphicon-volume-up"></span>'
+      };
+      btn.html(states[this.sound]);
+      return this.sound = !this.sound;
+    };
+
+    Objective.prototype.update = function(dt) {
+      var changed, state;
+      state = (function() {
         switch (false) {
           case !(dt < 30000):
-            return this.colors[2];
+            return RED;
           case !(dt < 90000):
-            return this.colors[1];
+            return YELLOW;
           default:
-            return this.colors[0];
+            return GREEN;
         }
-      }).call(this);
-      if (!this.initial) {
-        return this.setColor(color);
+      })();
+      changed = !(state === this.state);
+      this.state = state;
+      if (changed) {
+        this.first_update = !this.initial;
+      }
+      if (!this.initial && this.first_update && changed) {
+        this.setColor(this.colors[this.state]);
+        return this.playSound();
       }
     };
 
@@ -182,6 +207,15 @@ define('/objective', function(exports, require) {
       }
       this.element.find('.inner-box').css('background-color', color.bg);
       return this.element.find('.name').css('color', color.fg);
+    };
+
+    Objective.prototype.playSound = function() {
+      var snd;
+      snd = $('#alert-sound')[0];
+      if ((snd.ended || snd.paused) && this.sound && this.state !== GREEN) {
+        snd.load();
+        return snd.play();
+      }
     };
 
     return Objective;
@@ -205,6 +239,18 @@ define('/game', function(exports, require) {
       this.events = new Events(this);
       this.timer = new Timer();
       this._poll = 333;
+      this.element.find('.btn-mute').on('click', function(evt) {
+        var btn, snd, states;
+        btn = $(this);
+        btn.button('toggle');
+        states = {
+          "false": '<span class="glyphicon glyphicon-volume-off"></span>',
+          "true": '<span class="glyphicon glyphicon-volume-up"></span>'
+        };
+        snd = $('#alert-sound')[0];
+        btn.html(states[snd.muted]);
+        snd.muted = !snd.muted;
+      });
       this.element.find('.btn-start').on('click', function(evt) {
         var text;
         text = _this.toggle() ? 'Pause' : 'Resume';
@@ -276,7 +322,7 @@ define('/game', function(exports, require) {
         for (_i = 0, _len = objectives.length; _i < _len; _i++) {
           objective = objectives[_i];
           obj = objective.object;
-          obj.updateColor(htime - time);
+          obj.update(htime - time);
           obj.element.find('.time').html("" + minutes + ":" + seconds + " | " + lminutes + ":" + lseconds);
         }
       }

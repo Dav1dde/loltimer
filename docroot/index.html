@@ -15,6 +15,7 @@
         <div class="container-fluid outer-container">
             <div class="row game-controls">
                 <div class="col-xs-5 game-control-side game-control-left">
+                    <button type="button" class="btn btn-default btn-xs btn-mute"><span class="glyphicon glyphicon-volume-up"></span></button>
                     <button type="button" class="btn btn-default btn-xs btn-start">Start</button>
                 </div>
                 <div class="col-xs-2 game-time">0:00</div>
@@ -48,5 +49,11 @@
                 <div class="col-md-6 timer-box" id="tred" data-name="Enemy Red Buff" data-id="tred"></div>
             </div>
         </div>
+
+
+        <audio id="alert-sound">
+            <source src="sound/alert.mp3" type="audio/mpeg" />
+            <source src="sound/alert.ogg" type="audio/ogg" />
+        </audio>
     </body>
 </html>
