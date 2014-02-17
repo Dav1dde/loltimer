@@ -424,7 +424,7 @@ define('/timer', function(exports, require) {
     };
 
     Timer.prototype.resume = function() {
-      return pause();
+      return this.pause();
     };
 
     Timer.prototype.stop = function() {

@@ -14,7 +14,7 @@ exports = class Timer
         @paused = not @paused
         @stime = Date.now() - @stime
 
-    resume: -> pause()
+    resume: -> @pause()
 
     stop: ->
         t = @time()
