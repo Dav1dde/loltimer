@@ -46,8 +46,8 @@ exports = class Objective
 
     setup: ->
         html = OBJECTIVE_HTML
-        html = html.replace('OBJECTIVE_ID', @element.data 'id')
-                   .replace('OBJECTIVE_TITLE', @element.data 'name')
+        html = html.replace(/OBJECTIVE_ID/g, @element.attr 'id')
+                   .replace(/OBJECTIVE_TITLE/g, @element.data 'name')
 
         @element.html html
 

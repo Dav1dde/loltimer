@@ -131,7 +131,7 @@ define('/objective', function(exports, require) {
       var html,
         _this = this;
       html = OBJECTIVE_HTML;
-      html = html.replace('OBJECTIVE_ID', this.element.data('id')).replace('OBJECTIVE_TITLE', this.element.data('name'));
+      html = html.replace(/OBJECTIVE_ID/g, this.element.attr('id')).replace(/OBJECTIVE_TITLE/g, this.element.data('name'));
       this.element.html(html);
       this.element.find('.btn-dt').on('click', function(evt) {
         return _this.delay(parseInt($(evt.currentTarget).data('dt')));
